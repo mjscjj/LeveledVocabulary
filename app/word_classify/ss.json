@@ -1,0 +1,49 @@
+{
+  "tSpeakUrl": "http://openapi.youdao.com/ttsapi?q=%E8%8B%B9%E6%9E%9C&langType=zh-CHS&sign=9D00195FF0A8CF835B7EC8E609FE05F5&salt=1554690015118&voice=4&format=mp3&appKey=2e0a3c0dfab0fbec",
+  "web": [
+    {
+      "value": [
+        "苹果公司",
+        "苹果唱片",
+        "苹果唱片公司",
+        "出版者"
+      ],
+      "key": "Apple Corps"
+    },
+    {
+      "value": [
+        "苹果馅饼",
+        "苹果饼",
+        "苹果排",
+        "苹果塔"
+      ],
+      "k["
+      栎瘿
+      ", "
+      栎五倍子
+      ", "
+      栎属树苹果图片
+      "], "
+      key
+      ": "
+      Oak
+      apple
+      "}], "
+      query
+      ": "
+      apple
+      ", "
+      translation
+      ": ["
+      苹果
+      "], "
+      errorCode
+      ": "
+      0
+      ", "
+      dict
+      ": {"
+      url
+      ": "
+      yddict://m.youdao.com/dict?l, "webdict": {"url": "http://m.youdao.com/dict?le=eng&q=apple"}, "basic": {"exam_type": ["初中"], "us-phonetic": ""æpl", "phonetic": ""æp(ə)l", "uk-phonetic": ""æp(ə)l""uk-speech": "http://openapi.youdao.com/ttsapi?q=apple&langType=en&sign=2E45702B3414403E847650B0EDD3AB23&salt=1554690015118&voice=5&format=mp3&appKey=2e0a3c0dfab0fbec", "explains": ["n. 苹果，苹果树，苹果似的东西；[美俚]炸弹，手榴弹，（棒球的）球；[美俚]人，家伙。"], "us-speech": "http://openapi.youdao.com/ttsapi?q=apple&langType=en&s403E847650B0EDD3AB23&salt=1554690015118&voice=6&format=mp3&appKey=2e0a3c0dfab0fbec"}, "l": "en2zh-CHS", "speakUrl": "http://openapi.youdao.com/ttsapi?q=apple&langType=en&sign=2E45702B3414403E847650B0EDD3AB23&salt=1554690015118&voice=4&format=mp3&appKey=2e0a3c0dfab0fbec"}
+

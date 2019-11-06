@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:color="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Leveled Vocabulary</title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--chart-->
+    <script type="text/javascript" src="static/js/highcharts.js"></script>
+    <style>
+p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.show {
+    width: 100%;
+    height: auto;
+    word-wrap:break-word;
+    word-break:break-all;
+    overflow: hidden;
+    position:fixed;
+    right:15px;
+    top:50px;
+    z-index:9999;
+    background-color:NavajoWhite;
+    opacity:1;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.le {
+    white-space:pre-wrap;
+    font-size:15px;
+    <!--width:150px;-->
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="header"></div>
+    <script>
+            $(function() {
+                $('#header').load('static/head.html');
+                $('#footer').load('static/foot.html');
+            })
+    </script>
+    <script>
+$(document).ready(function () {
+value = $(this).text();
+$(".hot").mousedown(function () {
+$.get("/word", { "word": $(this).text() }, function (result) {
+var arrs = result.split(",");
+var html = '<p class="le">'+arrs[0]+'</p>';
+<!--html += '<p class="le">'+arrs[1]+'</p>';-->
+html += '<p class="le">'+arrs[2]+'</p>';
+html += '<p class="le">'+arrs[3]+'</p>';
+html += '<p class="le">'+arrs[4]+'</p>';
+html += '<p class="le">'+arrs[5]+'</p>';
+$(".show").html(html);
+});
+
+})
+
+   var das = [
+         ['Primary',   {{dis[0][1]}}],
+         ['Middle',       {{dis[1][1]}}],
+         ['High must',    {{dis[2][1]}}],
+         ['High select',     {{dis[3][1]}}],
+         ['Out of range',   {{dis[4][1]}}]
+      ]
+var pieColors = (function () {
+    var colors = [],
+        base = Highcharts.getOptions().colors[0],
+        i;
+    for (i = 0; i < 10; i += 1) {
+        // Start out with a darkened base color (negative brighten), and end
+        // up with a much brighter color
+        colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+    }
+    return colors;
+}());
+
+// Build the chart
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            colors: pieColors,
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                distance: -50,
+                filter: {
+                    property: 'percentage',
+                    operator: '>',
+                    value: 4
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Share',
+        data: das
+    }]
+});
+})
+    </script>
+    <div class="show" style="width:280px; height:auto; border:10px solid NavajoWhite;"></div>
+    <div class="row clearfix">
+        <div class="col-md-3 column">
+            <nav class="navbar navbar-default" role="navigation" style="background-color: white; border:none">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" type="border:none">
+                    <form role="form" action="/ana" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file"/>
+                        <button class="btn btn-default" type="submit">全文模式</button>
+                        <button class="btn btn-default" id="hid" type="submit" formaction="ana_s">纯净模式</button>
+                    </form>如果文件出现乱码，可以尝试复制内容存储为txt格式
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-3 column">
+            <br>
+            {% if percentage %}
+            <div style="float:left">
+                <span><font color='#2F4F4F'>小学</font>&nbsp;&emsp;&emsp;   {{percentage['primary'][0]}}% &nbsp; {{percentage['primary'][1]}} 个 </span><br>
+                <span><font color='#000066'>初一</font>&nbsp;&emsp;&emsp;   {{percentage['middle_one'][0]}}% &nbsp; {{percentage['middle_one'][1]}} 个 </span><br>
+                <span><font color='#4169E1'>初二、初三</font>&nbsp;&emsp;&emsp;   {{percentage['middle'][0]}}% &nbsp; {{percentage['middle'][1]}} 个</span><br>
+                <span><font
+                        color='#DAA520'>高中必修</font>&nbsp; {{percentage['must'][0]}}% &nbsp; {{percentage['must'][1]}} 个</span><br>
+                <span><font color='#3CB371'>高中选修</font>&nbsp; {{percentage['select'][0]}}% &nbsp; {{percentage['select'][1]}} 个</span><br>
+                <span><font color='#FF4500'>超纲</font>&nbsp;&emsp;&emsp;   {{percentage['out'][0]}}% &nbsp; {{percentage['out'][1]}} 个</span><br>
+            </div>
+            {% endif%}
+        </div>
+        <div class="col-md-6 column">
+            <div id="container"
+                 style="float:left; border:0px solid red; width: 250px; height: 250px; margin: 0 auto"></div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <hr>
+                <div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message[1]=="#2F4F4F" %}
+                    <span><font class="hot" color='#2F4F4F'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+                    {% if message[1]=="#000066" %}
+                    <span><font class="hot" color='#000066'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+                    {% if message[1]=="#4169E1" %}
+                    <span><font class="hot" color='#4169E1'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+                    {% if message[1]=="#DAA520" %}
+                    <span><font class="hot" color='#DAA520'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+                    {% if message[1]=="#3CB371" %}
+                    <span><font class="hot" color='#3CB371'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+                    {% if message[1]=="#FF4500" %}
+                    <span><font class="hot" color='#FF4500'><b>{{message[0]}}</b></font></span>
+                    {% endif %}
+
+                    {% if message[1]=="*" %}
+                        {% if message[0]=="'" %}
+                        <span><font class="hot"><b>{{message[0]}}</b></font></span>
+                        {% endif %}
+                    {% endif %}
+                    <!--{% if message[1]=="n" %}-->
+                    <!--<span><font id = "hidden"><br></font></span>-->
+                    <!--{% endif %}-->
+                    <!--{% if message[1]=="s" %}-->
+                    <!--<span><font>&nbsp;</font></span>-->
+                    <!--{% endif %}-->
+                    {% endfor %}
+                    {% endif %}
+                    <br><br><br><hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
+
+
+</body>
+</html>

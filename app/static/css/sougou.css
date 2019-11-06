@@ -1,0 +1,26 @@
+#wrap, body {
+    position: relative
+}
+
+body {
+    background: url(../../img/common/home_bg.png) left top #f9f9f9;
+    overflow-x: hidden;
+    background-color: black;
+    background: black;
+}
+
+#wrap {
+    background: rgba(0, 0, 0, 0);
+    min-width: 1200px;
+    z-index: 111
+}
+
+#background, #tmp {
+    left: 0;
+    position: absolute;
+    top: 0
+}
+
+#tmp {
+    top: -400px
+}
